@@ -3,7 +3,7 @@ import os
 import shutil
 
 # Get user input for working directory
-path = input("Please enter directory path: \n")
+path = input("Please enter directory path\nLeave empty and press enter to use current directory\n")
 
 # If no input, use current directory
 if len(path) <= 0:
