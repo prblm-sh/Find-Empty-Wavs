@@ -34,7 +34,7 @@ If you're running the script from a different directory, use `python C:\PATH\TO\
 
 You may also specify the name of the directory/folder on the command line, i.e. `python silentWavs.py C:\PATH\TO\FOLDER`. If the path name contains any spaces, it must be wrapped in quotes when called from the command line. I.e. `python silentWavs.py '..\exports\new track\'`. However, when entering the folder path at the prompt when the program is running, quotes *must not be used* in the path name, even if it contains spaces.
 
-The first prompt will ask which directory you want to check. Enter either the FULL path of the directory, i.e. `C:\Users\username\music\exports`.
+The first prompt will ask which directory you want to check if you did not enter a directory on the command line when calling the script. Enter either the FULL path of the directory, i.e. `C:\Users\username\music\exports`.
 
 Or you can use the relative path you're calling the script from, i.e. if your running the script from `C:\Users\username\scripts\` and the `.wav` files you want to test are in `C:\Users\username\exports\newTrack`, you can enter `..\exports\newTrack`. The `..\` indicates the parent/one directory above the current directory, in this example it would be `C:\Users\username\`. Using it twice will go up two directories. 
 
@@ -44,4 +44,4 @@ After inputting the folder/directory for the script to scan, the script will sca
 
 Once stats have been printed out, the user is given the option to remove all of the silent files. Any files that have ANY NOISE WHATSOEVER will NOT be deleted or moved. 
 
-If the user chooses to NOT delete the silent files, the user is given the option to move all of the SILENT files into a new, separate directory named "silentTemp" to separate the SILENT files from the files with noise. The name and location of the are currently hard-coded to be created in the folder the script was run on. I.e., if you run the script from `C:\Users\username\music\exports\` and enter `yes` or `y` when prompted to move silent files, the files will be moved to `C:\Users\username\music\exports\silentTemp\`. If the script was ran in `C:\Users\username\Documents\Test\`, silent files will optionally be moved to `C:\Users\username\Documents\Test\silentTemp`. 
+If the user chooses to NOT delete the silent files, the user is given the option to move all of the SILENT files into a new, separate directory named "silentTemp" to separate the SILENT files from the files with noise. The name and location of the folder is currently hard-coded to be created in the folder the script was run on. I.e., if you run the script from `C:\Users\username\music\exports\` and enter `yes` or `y` when prompted to move silent files, the files will be moved to `C:\Users\username\music\exports\silentTemp\`. If the script was ran in `C:\Users\username\Documents\Test\`, silent files will optionally be moved to `C:\Users\username\Documents\Test\silentTemp`. 
