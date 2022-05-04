@@ -1,17 +1,31 @@
-import sox
 import os
 import shutil
+import sox
+import sys
 
-# TODO: Add CLI argument option
-# Get user input for working directory
-path = input("Please enter directory path\nLeave empty and press enter to use current directory\n")
 
-# If no input, use current directory
-if len(path) <= 0:
-    workDir = os.path.abspath(os.getcwd())
-else:
+# Check if user entered folder name arg on command line
+if len(sys.argv) == 2:
+    path = (sys.argv[1])
+    # String manipulation to remove quote chars from
+    # folder names that contain spaces.
+    path = path.replace('"', '')
     workDir = os.path.abspath(path)
     os.chdir(workDir)
+
+# If no argument was entered
+elif len(sys.argv) == 1:
+    # Get user input for working directory
+    print("\nPlease enter path to folder")
+    print("If folder path contains spaces, DO NOT")
+    print("put quote characters in your input.\n")
+    path = input("Press Enter to use current directory\n")
+    # If no input, use current directory
+    if len(path) <= 0:
+        workDir = os.path.abspath(os.getcwd())
+    else:
+        workDir = os.path.abspath(path)
+        os.chdir(workDir)
 
 # get LIST of files in current working directory
 files = os.listdir()
