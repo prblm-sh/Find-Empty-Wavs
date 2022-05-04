@@ -34,11 +34,11 @@ If you're running the script from a different directory, use `python C:\PATH\TO\
 
 The first prompt will ask which directory you want to check. Enter either the FULL path of the directory, i.e. `C:\Users\username\music\exports`.
 
-Or you can use the relative path you're calling the script from, i.e. if your running the script from `C:\Users\username\scripts\` and the `.wav` files you want to test are in `C:\Users\username\exports\newTrack`, you can enter `..\..\exports`. The `..\` indicates the parent/one directory above the current directory. Using it twice will go up two directories. 
+Or you can use the relative path you're calling the script from, i.e. if your running the script from `C:\Users\username\scripts\` and the `.wav` files you want to test are in `C:\Users\username\exports\newTrack`, you can enter `..\exports\newTrack`. The `..\` indicates the parent/one directory above the current directory, in this example it would be `C:\Users\username\`. Using it twice will go up two directories. 
 
 If you encounter an error at this step, please double-check the path you are entering and verify it is correct. 
 
-After inputting the folder/directory for the script to scan, the script will scan every file in the directory, find files that end in `.wav`, and list the files that are silent, along with some stats from `sox` about the files. This is so the user can quickly verify all of the files the program counts as silent, are in fact, actually silent. The important values are the 'Amplitude' and 'Delta' values. For silent files, these should be `0.0`. 
+After inputting the folder/directory for the script to scan, the script will scan every file in the directory, find files that end in `.wav`, and list the files that are silent, along with some stats from `sox` about the SILENT files. This is so the user can quickly verify all of the files the program counts as silent, are in fact, actually silent. The important values are the 'Amplitude' and 'Delta' values. For silent files, these should be `0.0`. 
 
 Once stats have been printed out, the user is given the option to remove all of the silent files. Any files that have ANY NOISE WHATSOEVER will NOT be deleted or moved. 
 
