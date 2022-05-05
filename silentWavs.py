@@ -47,8 +47,6 @@ numOfWavs = len(wavList)
 print(workDir, "has",  numOfWavs, ".wav Files \n")
 
 
-# Empty list for files with sound
-loudWavs = []
 # Empty list for SILENT Files
 silentWavs = []
 
@@ -61,8 +59,6 @@ for wav in wavList:
         silentWavs.append(wav)
         print(wav, "is silent")
     # If file has noise, put file in loudWavs list
-    else:
-        loudWavs.append(wav)
 
 # If no .wav files are found, notify user and exit
 if len(wavList) == 0:
@@ -165,10 +161,25 @@ if zipAnswer[0] == "N":
 # and create a zip of the folder.
 if zipAnswer[0] == "Y":
     zipName = os.getcwd()
+    # Check if zip file already exists
+    zipCheck = zipName + ".zip"
+    if os.path.exists(zipCheck):
+        print("\n", zipCheck, "file already exists")
+        print("Would you like to overwrite\n", zipCheck, "?")
+        checkAns = input("Enter (Y)es or (N)o\n").upper()
+        if checkAns[0] == "N":
+            print("Not overwriting file.\nExiting...")
+            exit()
+        elif checkAns[0] == "Y":
+            print("\nOverwriting ", zipCheck)
+        else:
+            print("Improper input. File not over-written.\nExiting...")
+            exit()
+
     baseDir = os.path.relpath(zipName)
     rootDir = os.path.relpath(zipName)
     print("Creating Zip Archive...")
     shutil.make_archive(zipName, 'zip', root_dir=rootDir, base_dir=baseDir)
-    print("Zip archive created at ", zipName, "\nExiting...")
+    print("Zip archive of", zipName, "finished.\nExiting...")
     exit()
     
