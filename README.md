@@ -20,6 +20,7 @@ If you're not comfy using command-line interfaces, here's a couple documentation
 
 # Installation
 ## Downloading Files
+Use one of the below methods to obtain a copy of the script.
 ### Using Git
 If you have `git` installed, run
 `git clone https://github.com/prblm-sh/silent-Wavs.git`
