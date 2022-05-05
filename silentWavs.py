@@ -60,98 +60,115 @@ for wav in wavList:
     if sox.file_info.silent(wav, 0.0000000000000001):
         silentWavs.append(wav)
         print(wav, "is silent")
+    # If file has noise, put file in loudWavs list
+    else:
+        loudWavs.append(wav)
 
 # If no .wav files are found, notify user and exit
 if len(wavList) == 0:
     print("No .wav files found in ", workDir, "\nExiting...")
     exit()
 
-# If no silent .wav files are found, notify user and exit
+numOfSilentWavs = ''
+# If no silent .wav files are found, notify user
 if len(silentWavs) == 0:
-    print("No SILENT .wav files found. Exiting...\n")
-    exit()
+    print("No SILENT .wav files found.\n")
 
-numOfSilentWavs = len(silentWavs)
-print(numOfSilentWavs, "silent files in", workDir, "\n")
+elif len(silentWavs) >= 1:
+    numOfSilentWavs = len(silentWavs)
+    print(numOfSilentWavs, "silent files in", workDir, "\n")
 
-# Prints various stats about silent .wav files
-# Amp values should be 0.0 silent files
-print("Verify .wav files are silent")
-print("Amplitude values should be 0.0\n")
+    # Prints various stats about silent .wav files
+    # Amp values should be 0.0 silent files
+    print("Verify .wav files are silent")
+    print("Amplitude values should be 0.0\n")
 
-for x in silentWavs:
-    stat = sox.file_info.stat(x)
-    print(x, stat, "\n")
+    for x in silentWavs:
+        stat = sox.file_info.stat(x)
+        print(x, stat, "\n")
 
-print("\nIf any amplitude values are not 0.0, please manually check tracks\n")
+    print("\nIf any amplitude values are not 0.0, please manually check tracks\n")
 
 
-# prompt for deletion of silent files
-print("If you choose to NOT remove silent files, you'll be given")
-print("the option to move silent files to a separate folder.")
-print("\nWould you like to remove ", numOfSilentWavs, " silent .wav files?")
-delAnswer = input("Type (y)es or (n)o and press enter\n").upper()
+    # prompt for deletion of silent files
+    print("If you choose to NOT remove silent files, you'll be given")
+    print("the option to move silent files to a separate folder.")
+    print("\nWould you like to remove ", numOfSilentWavs, " silent .wav files?")
+    delAnswer = input("Type (y)es or (n)o and press enter\n").upper()
 
-# If user answers No, don't touch files and exit
-if delAnswer[0] == "N":
-    print("\nFiles Not Deleted\n")
+    # If user answers No, don't touch files and exit
+    if delAnswer[0] == "N":
+        print("\nFiles Not Deleted\n")
 
-# If user answers yes
-elif delAnswer[0] == "Y":
-    print("\n", numOfSilentWavs, "Silent .wav files will be removed")
-    for w in silentWavs:
-        os.remove(w)
-        print(w, "removed")
-    print("Silent files removed. Exiting...")
-    exit()
-
-else:
-    print("\nIncorrect input. No files deleted. Exiting...")
-    exit()
-
-# Conditional to make sure we don't try
-# to move deleted files. 
-if delAnswer[0] == "Y":
-    print("This shouldn't run wtf")
-    exit()
-
-elif delAnswer[0] == "N":
-    # Prompt for moving silent files to new directory
-    # to separate them from LOUD files for verification
-    print("Would you like to move ", numOfSilentWavs, " silent files to a separate directory?")
-    movAnswer = input("Type (Y)es or (N)o and press enter\n").upper()
-
-    # Directory variables for move file loops
-    sourceDir = workDir
-    tempDir = "silentTemp"
-    newDir = os.path.join(sourceDir, tempDir)
-
-    # If No, leave files in original directory
-    if movAnswer[0] == "N":
-        print("\nLeaving files in original folder. Exiting...\n")
-        exit()
-
-    # If Yes, create new directory and move files
-    elif movAnswer[0] == "Y":
-        # Check if directory exists already
-        # If dir exists, continue and move files
-        if os.path.exists(newDir) == True:
-            print(newDir, " already exists. Moving Files\n")
-        # If dir */DOES NOT/* exist, create it
-        elif os.path.exists(newDir) == False:
-            print("\nCreating ", newDir, "\n")
-            os.mkdir(newDir)
-
-        # Move silent files into newDir ("silentTemp")
-        print("Moving silent files moved to ", newDir, "\n")
-        for file in silentWavs:
-            source = os.path.join(sourceDir, file)
-            dest = os.path.join(newDir, file)
-            shutil.move(source, dest)
-        print("Moved silent files to ", newDir)
-        print("Exiting...")
-        exit()
+    # If user answers yes
+    elif delAnswer[0] == "Y":
+        print("\n", numOfSilentWavs, "Silent .wav files will be removed")
+        for w in silentWavs:
+            os.remove(w)
+            print(w, "removed")
+        print("Silent files removed.\n")
 
     else:
-        print("\nIncorrect input. Files not Moved. Exiting...")
+        print("\nIncorrect input. No files deleted. Exiting...")
         exit()
+
+
+    if delAnswer[0] == "N":
+        # Prompt for moving silent files to new directory
+        # to separate them from LOUD files for verification
+        print("Would you like to move ", numOfSilentWavs, " silent files to a separate directory?")
+        movAnswer = input("Type (Y)es or (N)o and press enter\n").upper()
+
+        # Directory variables for move file loops
+        sourceDir = workDir
+        tempDir = "silentTemp"
+        newDir = os.path.join(sourceDir, tempDir)
+
+        # If No, leave files in original directory
+        if movAnswer[0] == "N":
+            print("\nLeaving files in original folder.\n")
+
+        # If Yes, create new directory and move files
+        elif movAnswer[0] == "Y":
+            # Check if directory exists already
+            # If dir exists, continue and move files
+            if os.path.exists(newDir) == True:
+                print(newDir, " already exists. Moving Files\n")
+            # If dir */DOES NOT/* exist, create it
+            elif os.path.exists(newDir) == False:
+                print("\nCreating ", newDir, "\n")
+                os.mkdir(newDir)
+
+            # Move silent files into newDir ("silentTemp")
+            print("Moving silent files moved to ", newDir, "\n")
+            for file in silentWavs:
+                source = os.path.join(sourceDir, file)
+                dest = os.path.join(newDir, file)
+                shutil.move(source, dest)
+            print("Moved silent files to ", newDir, "\n")
+
+        else:
+            print("\nIncorrect input. Files not Moved. Exiting...")
+            exit()
+
+# Prompt for creation of .zip archive of files
+print("\nWould you like to create a zip archive of files?")
+print("Original files and folders will be preserved")
+print(".zip will include silent files if they were not removed")
+zipAnswer = input("Type (Y) or (N)o and press enter\n").upper()
+# If user answers no, do nothing
+if zipAnswer[0] == "N":
+    print("\nNo archive created.\nExiting...")
+    exit()
+
+# If yes, create new folder, copy files to new folder,
+# and create a zip of the folder.
+if zipAnswer[0] == "Y":
+    zipName = os.getcwd()
+    baseDir = os.path.relpath(zipName)
+    rootDir = os.path.relpath(zipName)
+    print("Creating Zip Archive...")
+    shutil.make_archive(zipName, 'zip', root_dir=rootDir, base_dir=baseDir)
+    print("Zip archive created at ", zipName, "\nExiting...")
+    exit()
+    
