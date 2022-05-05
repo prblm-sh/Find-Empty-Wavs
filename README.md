@@ -1,7 +1,9 @@
 # silent-Wavs
 Currently only tested on Windows
 
-A CLI python script that finds all empty/silent .WAV files in a directory and gives user the option to either remove the silent files or move them into a new separate folder. 
+A CLI python script that finds all empty/silent .WAV files in a directory and gives user the option to remove the silent files and/or move them into a new separate folder. Additionally, also gives the option of creating a `.zip` archive file to aid in uploading/sending sound stems.
+
+For an example of running the script, see the [example](#an-example-run) at the bottom of this README.
 
 # Helpful Articles
 If you're not comfy using command-line interfaces, here's a couple documentation pages that may help you get started.
@@ -9,12 +11,23 @@ If you're not comfy using command-line interfaces, here's a couple documentation
 
 [Running Python programs on Windows](https://docs.python.org/3/faq/windows.html#how-do-i-run-a-python-program-under-windows)
 
+[Windows Terminal FAQ](https://github.com/microsoft/terminal/wiki/Frequently-Asked-Questions-(FAQ))
+
 # Requirements
 - Python3 (Written with Ver. 3.10.4)
 - SoX | [Download Link](https://sourceforge.net/projects/sox/files/sox/) | [Home Page](http://sox.sourceforge.net/Main/HomePage)
 - python pip 'sox' wrapper package
 
 # Installation
+## Downloading Files
+### Using Git
+If you have `git` installed, run
+`git clone https://github.com/prblm-sh/silent-Wavs.git`
+to clone a local copy of the repo. When the repo is finished being cloned to your machine, follow the remaining installation instructions as needed. 
+
+### Downloading Zip
+In the upper right corner at the top of this page, click the `Code` button/tab, then select `Download ZIP`. When the file finishes downloading, unzip/extract the file then follow the remaining installation instructions as needed. 
+
 ## Python
 If you need to install python on your system, follow along with the [Python on Windows Docs](https://docs.python.org/3/using/windows.html), and be sure to check the 'Add Python to PATH' checkbox when installing so Python is available from cmd.exe or powershell.
 
@@ -47,3 +60,100 @@ Once stats have been printed out, the user is given the option to remove all of 
 If the user chooses to NOT delete the silent files, the user is given the option to move all of the SILENT files into a new, separate directory named "silentTemp" to separate the SILENT files from the files with noise. The name and location of the folder is currently hard-coded to be created in the folder the script was run on. I.e., if you run the script from `C:\Users\username\music\exports\` and enter `yes` or `y` when prompted to move silent files, the files will be moved to `C:\Users\username\music\exports\silentTemp\`. If the script was ran in `C:\Users\username\Documents\Test\`, silent files will optionally be moved to `C:\Users\username\Documents\Test\silentTemp`. 
 
 Finally, the program will ask the user if they'd like to create a zip archive of the directory. In the case of having run an export from the 'Maschine DAW' at the sound level, this allows a user to run this script on the folder 'Maschine' created during export without having to comb through their entire arrangement to avoid empty sound files, or worse, accidently skipping a sound that was actually used. With the script, silent .wav files will be removed as fast as your computer can math, and get back a `.zip` archive ready to be uploaded as track-outs to your favorite website, favorite mix engineer, or favorite rapper. Please note, however, that if you opt to *not* delete the silent files when running the script, then create a .zip archive in the same run, the resulting archive will also contain the silent files. The `.zip` archive will be located in the parent folder of the folder that was zipped. I.e, if you create a `.zip` of `C:\Users\username\music\exports\hottestTrackEver`, the `.zip` will be located at `C:\Users\username\music\exports\hottestTrackEver.zip`, in the `exports` folder. The `hottestTracksEver` folder and all files within it will remain in place, with the exception of silent files if you choose to delete or move them during the script run. 
+
+## An Example Run
+
+``` powershell
+PS C:\Users\producer\python\silent-Wavs> python .\silentWavs.py '..\exampleTrackouts\'
+
+Finding .wav files in  C:\Users\producer\python\exampleTrackouts
+
+one_shot_toast.wav
+one_shot_leo_tone_drum.wav
+pluck_loop_96_Gmin.wav
+pluck_loop_96_Gmin.wav
+ASDR Melody Sample.wav
+one_shot_rolling.1.wav
+Rev Drum Loop - Reversed SARZ Shaker Loop.wav
+ASDR Rev Drum Loop.wav
+Kick ComeOn 1.wav
+Snare ComeOn 1.wav
+ClosedHH ComeOn 1.wav
+OpenHH ComeOn.wav
+Kick ComeOn 2.wav
+Snare ComeOn 2.wav
+ClosedHH ComeOn 2.wav
+ClosedHH ComeOn 3.wav
+Chord Rhodes C ComeOn.wav
+Chord Rhodes E ComeOn.wav
+Chord Piano Am ComeOn.wav
+Hit G ComeOn.wav
+Chord Rhodes A.ComeOn.wav
+Hit A ComeOn.wav
+SFX ComeOn.wav
+Bass C ComeOn.wav
+C:\Users\producer\python\exampleTrackouts has 24 .wav Files
+
+Checking if files are silent
+13 silent files in C:\Users\producer\python\exampleTrackouts
+
+Verify .wav files are silent
+Max Amplitude values should be 0.0
+
+pluck_loop_96_Gmin.wav : {'Maximum amplitude': 0.0}
+Snare2.wav : {'Maximum amplitude': 0.0}
+Snare1.wav : {'Maximum amplitude': 0.0}
+ClosedHH2.wav : {'Maximum amplitude': 0.0}
+ClosedHH3.wav : {'Maximum amplitude': 0.0}
+Chord Rhodes C.wav : {'Maximum amplitude': 0.0}
+Chord Rhodes E.wav : {'Maximum amplitude': 0.0}
+Chord Piano Am.wav : {'Maximum amplitude': 0.0}
+Hit G.wav : {'Maximum amplitude': 0.0}
+Chord Rhodes A.wav : {'Maximum amplitude': 0.0}
+Hit A.wav : {'Maximum amplitude': 0.0}
+SFX.wav : {'Maximum amplitude': 0.0}
+Bass C.wav : {'Maximum amplitude': 0.0}
+
+If any amplitude values are not 0.0, please manually check tracks
+
+If you choose to NOT remove silent files, you will be given
+the option to move silent files to a separate folder.
+
+Would you like to remove  13  silent .wav files?
+Type (y)es or (N)o and press enter
+y
+
+ 13 Silent .wav files will be removed
+pluck_loop_96_Gmin.wav removed
+Snare1.wav removed
+Snare2.wav removed
+ClosedHH2.wav removed
+ClosedHH3.wav removed
+Chord Rhodes C.wav removed
+Chord Rhodes E.wav removed
+Chord Piano Am.wav removed
+Hit G.wav removed
+Chord Rhodes A.wav removed
+Hit A.wav removed
+SFX.wav removed
+Bass C.wav removed
+Silent files removed.
+
+
+Would you like to create a zip archive of files?
+Original files and folders will be preserved
+.zip will include silent files if they were not removed
+Type (Y)es or (N)o and press enter
+y
+
+ C:\Users\producer\python\exampleTrackouts.zip file already exists
+Would you like to overwrite
+ C:\Users\producer\python\exampleTrackouts.zip ?
+Enter (Y)es or (N)o
+y
+
+Overwriting  C:\Users\producer\python\exampleTrackouts.zip
+Creating Zip Archive...
+Zip archive of C:\Users\producer\python\exampleTrackouts finished.
+Exiting...
+```
