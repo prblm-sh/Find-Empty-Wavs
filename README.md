@@ -43,6 +43,8 @@ Hit the 'Windows' key and search 'Edit environment variables' and select 'Edit e
 To install the `sox` package, in your terminal run `pip install sox`, or from within the project folder, run `pip install -r requirements.txt`. This should also download and install any dependencies for the `sox` package.
 
 # Usage
+First, open up a terminal. Hit the windows key and search for either "terminal" for the Windows Terminal (preffered), "powershell" for the powershell terminal, or "cmd" for cmd.exe.
+
 To run the script, from a terminal/CLI run `python silentWavs.py`
 If you're running the script from a different directory, use `python C:\PATH\TO\SCRIPT\silentWavs.py`, replacing `\PATH\TO\SCRIPT` with where it's been saved on yoru system.
 
