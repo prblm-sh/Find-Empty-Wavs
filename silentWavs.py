@@ -27,6 +27,11 @@ elif len(sys.argv) == 1:
         workDir = os.path.abspath(path)
         os.chdir(workDir)
 
+# If too many arguments, notify user and exit
+elif len(sys.argv) >= 3:
+    print("Too many many arguments. Only enter one directory at a time\nExiting..")
+    exit()
+
 # get LIST of files in current working directory
 files = os.listdir()
 
@@ -54,18 +59,16 @@ silentWavs = []
 # 2nd arg in silent() is threashold for 
 # determining silence. Set so that a track
 # with ANY amplitude AT ALL will not be touched
+print("Checking if files are silent")
 for wav in wavList:
     if sox.file_info.silent(wav, 0.0000000000000001):
         silentWavs.append(wav)
-        print(wav, "is silent")
-    # If file has noise, put file in loudWavs list
 
 # If no .wav files are found, notify user and exit
 if len(wavList) == 0:
     print("No .wav files found in ", workDir, "\nExiting...")
     exit()
 
-numOfSilentWavs = ''
 # If no silent .wav files are found, notify user
 if len(silentWavs) == 0:
     print("No SILENT .wav files found.\n")
@@ -77,11 +80,13 @@ elif len(silentWavs) >= 1:
     # Prints various stats about silent .wav files
     # Amp values should be 0.0 silent files
     print("Verify .wav files are silent")
-    print("Amplitude values should be 0.0\n")
+    print("Max Amplitude values should be 0.0\n")
 
+    # get only amplitude values from sox.file_info.stats()
     for x in silentWavs:
         stat = sox.file_info.stat(x)
-        print(x, stat, "\n")
+        maxAmp = dict((a, stat[a]) for a in ['Maximum amplitude'] if a in stat)
+        print(x, ":", maxAmp)
 
     print("\nIf any amplitude values are not 0.0, please manually check tracks\n")
 
@@ -90,7 +95,7 @@ elif len(silentWavs) >= 1:
     print("If you choose to NOT remove silent files, you'll be given")
     print("the option to move silent files to a separate folder.")
     print("\nWould you like to remove ", numOfSilentWavs, " silent .wav files?")
-    delAnswer = input("Type (y)es or (n)o and press enter\n").upper()
+    delAnswer = input("Type (y)es or (N)o and press enter\n").upper()
 
     # If user answers No, don't touch files and exit
     if delAnswer[0] == "N":
@@ -151,7 +156,7 @@ elif len(silentWavs) >= 1:
 print("\nWould you like to create a zip archive of files?")
 print("Original files and folders will be preserved")
 print(".zip will include silent files if they were not removed")
-zipAnswer = input("Type (Y) or (N)o and press enter\n").upper()
+zipAnswer = input("Type (Y)es or (N)o and press enter\n").upper()
 # If user answers no, do nothing
 if zipAnswer[0] == "N":
     print("\nNo archive created.\nExiting...")
